@@ -1,5 +1,6 @@
 package com.daniel.android.relifemanager;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,12 +23,17 @@ public class RoutineViewAdapter extends RecyclerView.Adapter<RoutineViewAdapter.
     public static class RoutineViewHolder extends RecyclerView.ViewHolder {
 
         public TextView textView;
+        public View mView;
 
         // Each data item is just a string of the Routine name
         public RoutineViewHolder(@NonNull View view) {
             super(view);
+            mView = view;
             textView = view.findViewById(R.id.textView_routine);
+
         }
+
+
     }
 
     public RoutineViewAdapter(List<Routine> routineList) {
@@ -48,10 +54,22 @@ public class RoutineViewAdapter extends RecyclerView.Adapter<RoutineViewAdapter.
 
     // replaces the contents of a ViewHolder
     @Override
-    public void onBindViewHolder(@NonNull RoutineViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RoutineViewHolder holder, final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         holder.textView.setText(mRoutineList.get(position).getName());
+
+        holder.mView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // create an intent
+                Intent intent = new Intent(v.getContext(), RoutineDetailActivity.class);
+                // put details into intent
+                intent.putExtra("ROUTINE_NAME", mRoutineList.get(position).getName());
+                // switch to Routine detail activity
+                v.getContext().startActivity(intent);
+            }
+        });
     }
 
     // gets the size of dataset, invoked by the layout manager

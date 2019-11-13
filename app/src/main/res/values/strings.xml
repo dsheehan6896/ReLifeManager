@@ -2,4 +2,7 @@
     <string name="app_name">ReLifeManager</string>
     <string name="name_routine_default">Routine Name</string>
     <string name="name_habit_default">Habit Name</string>
+    <!-- Buttons -->
+    <string name="button_edit">Edit</string>
+    <string name="button_delete">Delete</string>
 </resources>
