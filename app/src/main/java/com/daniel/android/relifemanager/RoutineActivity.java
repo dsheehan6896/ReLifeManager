@@ -4,7 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+
+import java.util.UUID;
 
 public class RoutineActivity extends AppCompatActivity {
 
@@ -35,7 +38,28 @@ public class RoutineActivity extends AppCompatActivity {
         mAdapter = new RoutineViewAdapter(mRoutineModel.getRoutineList()); // specifies an adapter and passes the data to display
         mRecyclerView.setAdapter(mAdapter); // assigns adapter to the view
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(mAdapter != null) {
+            Intent intent = getIntent();
+            boolean isStart = intent.getBooleanExtra("START_INTENT", true);
+            if (isStart == false) {
+                UUID id = UUID.fromString(intent.getStringExtra("UUID"));
+                String name = intent.getStringExtra("ROUTINE_NAME");
+                if (mRoutineModel.containsID(id)) {
+                    mRoutineModel.getRoutineById(id).setName(name);
+                }
+            }
+            updateUI();
 
 
+        }
+    }
+
+    private void updateUI() {
+        mAdapter.notifyDataSetChanged();
     }
 }

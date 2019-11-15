@@ -1,7 +1,7 @@
 package com.daniel.android.relifemanager;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.UUID;
 
 public class RoutineModel {
 
@@ -11,12 +11,24 @@ public class RoutineModel {
         mRoutineList = new ArrayList<>();
     }
 
-    public Routine getRoutineAt(int index) {
-        if(index < mRoutineList.size()) {
-            return mRoutineList.get(index);
-        } else {
-            return null;
+    public Routine getRoutineById(UUID id) {
+        if(!mRoutineList.isEmpty() || containsID(id)) {
+            for (int i = 0; i < mRoutineList.size(); i++){
+                if(mRoutineList.get(i).getUUID() == id) {
+                    return mRoutineList.get(i);
+                }
+            }
         }
+        return null;
+    }
+
+    public boolean containsID(UUID id) {
+        for (int i = 0; i < mRoutineList.size(); i++){
+            if(mRoutineList.get(i).getUUID() == id){
+                return true;
+            }
+        }
+        return false;
     }
 
     public ArrayList<Routine> getRoutineList() {
@@ -41,4 +53,5 @@ public class RoutineModel {
             return false;
         }
     }
+
 }

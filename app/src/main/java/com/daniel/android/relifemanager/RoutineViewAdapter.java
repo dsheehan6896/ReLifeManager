@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+import java.util.UUID;
 
 public class RoutineViewAdapter extends RecyclerView.Adapter<RoutineViewAdapter.RoutineViewHolder> {
 
@@ -20,20 +21,42 @@ public class RoutineViewAdapter extends RecyclerView.Adapter<RoutineViewAdapter.
     Complex data items may need more than one view per item, and you
     provide access to all the views for a data item in a view holder
      */
-    public static class RoutineViewHolder extends RecyclerView.ViewHolder {
+    public static class RoutineViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public TextView textView;
         public View mView;
+        public UUID mUUID;
+        public String mName;
 
         // Each data item is just a string of the Routine name
         public RoutineViewHolder(@NonNull View view) {
             super(view);
+            itemView.setOnClickListener(this);
+
             mView = view;
-            textView = view.findViewById(R.id.textView_routine);
+            textView = (TextView) view.findViewById(R.id.textView_routine);
+        }
+
+        public void bind(Routine routine) {
+            mUUID = routine.getUUID();
+            mName = routine.getName();
+            textView.setText(mName);
 
         }
 
+        @Override
+        public void onClick(View v) {
+            // NEED UUID INSTEAD OF POSITION TO IDENTIFY ROUTINE
 
+            // create an intent
+            Intent intent = new Intent(v.getContext(), RoutineDetailActivity.class);
+            // put details into intent
+            intent.putExtra("START_INTENT", false);
+            intent.putExtra("UUID", mUUID.toString());
+            intent.putExtra("ROUTINE_NAME", mName);
+            // switch to Routine detail activity
+            v.getContext().startActivity(intent);
+        }
     }
 
     public RoutineViewAdapter(List<Routine> routineList) {
@@ -57,19 +80,21 @@ public class RoutineViewAdapter extends RecyclerView.Adapter<RoutineViewAdapter.
     public void onBindViewHolder(@NonNull RoutineViewHolder holder, final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.textView.setText(mRoutineList.get(position).getName());
-
+        holder.bind(mRoutineList.get(position));
+        /*
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // create an intent
                 Intent intent = new Intent(v.getContext(), RoutineDetailActivity.class);
                 // put details into intent
+                intent.putExtra("POSITION", position);
                 intent.putExtra("ROUTINE_NAME", mRoutineList.get(position).getName());
                 // switch to Routine detail activity
                 v.getContext().startActivity(intent);
             }
         });
+         */
     }
 
     // gets the size of dataset, invoked by the layout manager

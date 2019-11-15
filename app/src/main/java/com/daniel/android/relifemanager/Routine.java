@@ -2,8 +2,11 @@ package com.daniel.android.relifemanager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Routine {
+
+    private UUID mUUID;
 
     private String mName;
     private List<Habit> mHabitList;
@@ -11,6 +14,7 @@ public class Routine {
     public Routine() {
         mName = "Routine";
         mHabitList = new ArrayList<>();
+        mUUID = UUID.randomUUID();
     }
 
     public Routine(String name) {
@@ -42,5 +46,13 @@ public class Routine {
 
     public String getName() {
         return mName;
+    }
+
+    public void setName(String name) {
+        this.mName = name;
+    }
+
+    public UUID getUUID() {
+        return mUUID;
     }
 }

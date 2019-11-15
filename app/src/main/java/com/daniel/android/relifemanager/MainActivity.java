@@ -14,6 +14,7 @@ public class MainActivity extends AppCompatActivity {
 
         // AUTOMATICALLY SWITCHES ACTIVITY
         Intent mainIntent = new Intent(MainActivity.this, RoutineActivity.class);
+        mainIntent.putExtra("START_INTENT", true);
         MainActivity.this.startActivity(mainIntent);
         MainActivity.this.finish();
     }
