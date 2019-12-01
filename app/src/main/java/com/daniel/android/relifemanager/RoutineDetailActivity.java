@@ -5,13 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import java.util.UUID;
 
 public class RoutineDetailActivity extends AppCompatActivity {
 
@@ -25,7 +24,7 @@ public class RoutineDetailActivity extends AppCompatActivity {
 
     private String mName;
 
-    private UUID mUUID;
+    private String mID;
 
     // INFO ON ENIABLING/DISABLING PLAINTEXT EDIT
     // editText.setFocusable(false) to disable
@@ -40,7 +39,8 @@ public class RoutineDetailActivity extends AppCompatActivity {
         mIntent = getIntent();
         // get extras
         mName = mIntent.getStringExtra("ROUTINE_NAME");
-        mUUID = UUID.fromString(mIntent.getStringExtra("UUID"));
+        mID = mIntent.getStringExtra("ID");
+        Log.d("ID", "ID is " + mID);
         // assign name editText
         mEditTextName = findViewById(R.id.editText_routineDetail_name);
         // disable name editing by default
@@ -78,7 +78,7 @@ public class RoutineDetailActivity extends AppCompatActivity {
                 Intent intent = new Intent(v.getContext(), RoutineActivity.class);
                 intent.putExtra("START_INTENT", false);
                 intent.putExtra("ROUTINE_NAME", mName);
-                intent.putExtra("UUID", mUUID.toString());
+                intent.putExtra("ID", mID);
 
                 // move to RoutineActivity
                 v.getContext().startActivity(intent);

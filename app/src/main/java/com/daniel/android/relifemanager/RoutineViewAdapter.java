@@ -1,6 +1,7 @@
 package com.daniel.android.relifemanager;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
-import java.util.UUID;
 
 public class RoutineViewAdapter extends RecyclerView.Adapter<RoutineViewAdapter.RoutineViewHolder> {
 
@@ -25,7 +25,7 @@ public class RoutineViewAdapter extends RecyclerView.Adapter<RoutineViewAdapter.
 
         public TextView textView;
         public View mView;
-        public UUID mUUID;
+        public String mID;
         public String mName;
 
         // Each data item is just a string of the Routine name
@@ -38,7 +38,7 @@ public class RoutineViewAdapter extends RecyclerView.Adapter<RoutineViewAdapter.
         }
 
         public void bind(Routine routine) {
-            mUUID = routine.getUUID();
+            mID = routine.getID();
             mName = routine.getName();
             textView.setText(mName);
 
@@ -47,12 +47,12 @@ public class RoutineViewAdapter extends RecyclerView.Adapter<RoutineViewAdapter.
         @Override
         public void onClick(View v) {
             // NEED UUID INSTEAD OF POSITION TO IDENTIFY ROUTINE
-
+            Log.d("ID", "ID is " + mID);
             // create an intent
             Intent intent = new Intent(v.getContext(), RoutineDetailActivity.class);
             // put details into intent
             intent.putExtra("START_INTENT", false);
-            intent.putExtra("UUID", mUUID.toString());
+            intent.putExtra("ID", mID);
             intent.putExtra("ROUTINE_NAME", mName);
             // switch to Routine detail activity
             v.getContext().startActivity(intent);

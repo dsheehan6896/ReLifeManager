@@ -2,19 +2,18 @@ package com.daniel.android.relifemanager;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+import java.util.Objects;
 
-public class Routine {
+public final class Routine {
 
-    private UUID mUUID;
-
+    private String mID;
     private String mName;
     private List<Habit> mHabitList;
 
     public Routine() {
         mName = "Routine";
         mHabitList = new ArrayList<>();
-        mUUID = UUID.randomUUID();
+        mID = Integer.toString(hashCode());
     }
 
     public Routine(String name) {
@@ -52,7 +51,22 @@ public class Routine {
         this.mName = name;
     }
 
-    public UUID getUUID() {
-        return mUUID;
+    public String getID() {
+        return mID;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Routine routine = (Routine) o;
+        return mID.equals(routine.mID) &&
+                mName.equals(routine.mName) &&
+                mHabitList.equals(routine.mHabitList);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(mName);
     }
 }

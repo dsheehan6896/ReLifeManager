@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import java.util.UUID;
 
@@ -43,23 +44,30 @@ public class RoutineActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        if(mAdapter != null) {
-            Intent intent = getIntent();
-            boolean isStart = intent.getBooleanExtra("START_INTENT", true);
-            if (isStart == false) {
-                UUID id = UUID.fromString(intent.getStringExtra("UUID"));
-                String name = intent.getStringExtra("ROUTINE_NAME");
-                if (mRoutineModel.containsID(id)) {
-                    mRoutineModel.getRoutineById(id).setName(name);
-                }
+        Log.d("ONRESUME", "onResume is being called in MainActivity");
+
+        Intent intent = getIntent();
+        boolean isStart = intent.getBooleanExtra("START_INTENT", true);
+        if (isStart == false) {
+            String id = intent.getStringExtra("ID");
+            String name = intent.getStringExtra("ROUTINE_NAME");
+
+            Log.d("ISSTART", "isStart is false");
+            Log.d("ID", "ID is " + id);
+            if (mRoutineModel.containsID(id)) {
+
+                mRoutineModel.getRoutineById(id).setName(name);
+                updateUI();
             }
-            updateUI();
-
-
         }
+
+
     }
 
     private void updateUI() {
-        mAdapter.notifyDataSetChanged();
+        Log. d("UPDATEUI", "updateUI is being called");
+        // recreates the view adapter with updated data
+        mAdapter = new RoutineViewAdapter(mRoutineModel.getRoutineList());
+        mRecyclerView.setAdapter(mAdapter);
     }
 }

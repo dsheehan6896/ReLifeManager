@@ -1,9 +1,10 @@
 package com.daniel.android.relifemanager;
 
-import java.util.ArrayList;
-import java.util.UUID;
+import android.util.Log;
 
-public class RoutineModel {
+import java.util.ArrayList;
+
+public final class RoutineModel {
 
     private static ArrayList<Routine> mRoutineList;
 
@@ -11,10 +12,10 @@ public class RoutineModel {
         mRoutineList = new ArrayList<>();
     }
 
-    public Routine getRoutineById(UUID id) {
+    public Routine getRoutineById(String id) {
         if(!mRoutineList.isEmpty() || containsID(id)) {
             for (int i = 0; i < mRoutineList.size(); i++){
-                if(mRoutineList.get(i).getUUID() == id) {
+                if(mRoutineList.get(i).getID().equals(id)) {
                     return mRoutineList.get(i);
                 }
             }
@@ -22,12 +23,17 @@ public class RoutineModel {
         return null;
     }
 
-    public boolean containsID(UUID id) {
+    public boolean containsID(String id) {
         for (int i = 0; i < mRoutineList.size(); i++){
-            if(mRoutineList.get(i).getUUID() == id){
+            Log.d("ITERATION", "Iteration " + i);
+            String uuid = mRoutineList.get(i).getID();
+            Log.d("UID", "ID " + i + " = " + uuid);
+            if(uuid.equals(id)){
+                Log.d("CONTAINSID", "true");
                 return true;
             }
         }
+        Log.d("CONTAINSID", "false");
         return false;
     }
 
